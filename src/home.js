@@ -14,7 +14,7 @@ export default function homePage() {
     // const smartListsArray = [];
     lists.push(new List(1, 'All', '📚'));
     lists.push(new List(2, 'Today', '🌅'));
-    // lists.push(new List(3, 'Inbox', '📥'));
+    lists.push(new List(3, 'Inbox', '📥'));
 
     lists.forEach(list => {
         const listItem = document.createElement('li');
