@@ -57,8 +57,18 @@ h1 {
     font-size: 36px;
 }
 
-input {
+input, textarea {
     margin-bottom: 5px;
+    border: none;
+    height: 30px;
+}
+
+textarea {
+    resize: none;
+}
+
+input:focus, textarea:focus {
+    border: none;
 }
 
 #container {
@@ -123,8 +133,9 @@ input {
 }
 
 #create-task-modal {
-    border: red 2px solid;
-    border-radius: 5px;
+    border: var(--grey) 2px solid;
+    border-radius: 8px;
+    padding: 5px;
     /* display: flex; */
 }
 
