@@ -11,7 +11,7 @@
     --red: #CE2B37;
     --yellow: #FFA630;
     --blue: #3777FF;
-    --grey: #c8c9cc;
+    --grey: #DCDBDB;
 }
 
 button {
@@ -43,7 +43,7 @@ li {
 }
 
 li:hover {
-    background-color: rgb(220, 219, 219);
+    background-color: var(--grey);
     cursor: pointer;
 }
 
@@ -55,6 +55,10 @@ h2 {
 
 h1 {
     font-size: 36px;
+}
+
+input {
+    margin-bottom: 5px;
 }
 
 #container {
@@ -118,6 +122,40 @@ h1 {
     /* Adjust font size to match the icon */
 }
 
+#create-task-modal {
+    border: red 2px solid;
+    border-radius: 5px;
+    /* display: flex; */
+}
+
+#create-task-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-group-1 {
+    display: flex;
+    flex-direction: column;
+}
+
+#task-name {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#task-name::-webkit-input-placeholder {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#description {
+    font-size: 14px;
+}
+
+#description::-webkit-input-placeholder {
+    font-size: 14px;
+}
+
 .task-item {
     display: flex;
     align-items: center;
@@ -137,6 +175,6 @@ h1 {
 }
 
 .task-priority-color:hover {
-    background-color: rgb(220, 219, 219);
+    background-color: var(--grey);
     cursor: pointer;
 }

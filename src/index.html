@@ -13,7 +13,24 @@
             <ul id="user-lists-container">
             </ul>
         </div>
-        <div id="content"></div>
+        <div id="content">
+            <div id="create-task-modal" class="modal">
+                <form id="create-task-form">
+                    <div class="form-group" id="form-group-1">
+                        <input type="text" id="task-name" name="task-name" placeholder="Task name">
+                        <textarea id="description" name="description" placeholder="Description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="due-date-button" class="button">Due date</button>
+                        <button type="button" id="priority-button" class="button">Priority</button>
+                        <select id="list-select" name="list-name" class="button">
+                            <option value="inbox">List name</option>
+                            <!-- Add other list options here -->
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>

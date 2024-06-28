@@ -121,12 +121,15 @@ export default function homePage() {
             }
             const taskName = document.createElement('p');
             taskName.textContent = task.name;
+            const dueDate = document.createElement('p');
+            dueDate.textContent = task.dueDate;
             const dividingLine = document.createElement('hr');
             dividingLine.className = 'task-dividing-line';
 
             // Create task item
             taskItem.appendChild(taskPriorityButton);
             taskItem.appendChild(taskName);
+            taskItem.appendChild(dueDate);
             // Add task item to list and add dividing line
             taskList.appendChild(taskItem);
             taskList.appendChild(dividingLine);
@@ -143,7 +146,31 @@ export default function homePage() {
             });
         });
     }
+
+    // Create task modal
+//     const createTaskModal = document.createElement('div');
+//     createTaskModal.id = 'create-task-modal';
+//     createTaskModal.className = 'modal';
+//     // Create task form
+//     const createTaskForm = document.createElement('form');
+//     // Form fields
+//     const taskNameField = document.createElement('input');
+//     taskNameField.type = 'text';
+//     taskNameField.id = 'task-name';
+//     taskNameField.name = 'task-name';
+//     const descriptionField = document.createElement('input');
+//     const dueDateField = document.createElement('input');
+//     const priorityField = document.createElement('input');
+//     const listNameField = document.createElement('input');
     
+//     <label for="fname">First name:</label><br>
+//   <input type="text" id="fname" name="fname"><br>
+//   <label for="lname">Last name:</label><br>
+//   <input type="text" id="lname" name="lname"></input>
+
+
+//     createTaskModal.appendChild(createTaskForm); 
+
     // When the create task button is clicked, add the inputted task to the correct list 
     createTaskContainer.addEventListener('click', () => {
         if (currentListId !== null) {
