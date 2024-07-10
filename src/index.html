@@ -23,9 +23,15 @@
                     <div class="form-group">
                         <input type="date" id="task-due-date" name="task-due-date"/>
                         <button type="button" id="due-date-button" class="button">Due date</button>
-                        <button type="button" id="priority-button" class="button">Priority</button>
+                        <select id="priority-select" name="priority-select" class="button">
+                            <option value="priority">⚪️ Priority</option>
+                            <option value="priority" id="high-priority">🔴 High priority</option>
+                            <option value="priority" id="medium-priority">🟡 Medium priority</option>
+                            <option value="priority" id="low-priority">🔵 Low priority</option>
+                            <!-- Add other list options here -->
+                        </select>
                         <select id="list-select" name="list-name" class="button">
-                            <option value="inbox">List name</option>
+                            <option value="list-name">List name</option>
                             <!-- Add other list options here -->
                         </select>
                     </div>

@@ -143,33 +143,35 @@ export default function homePage() {
                     taskName.style.textDecoration = 'line-through';
                     taskPriorityButton.style.borderColor = '#c8c9cc';
                 }
+                // This needs to be put into its own function
+                else {
+                    taskName.style.textDecoration = 'none';
+                    switch (task.priority) {
+                        case 'high':
+                            taskPriorityButton.style.borderColor = '#CE2B37';
+                            break;
+                        case 'medium':
+                            taskPriorityButton.style.borderColor = '#FFA630';
+                            break;
+                        case 'low':
+                            taskPriorityButton.style.borderColor = '#3777FF';
+                            break;
+                        default:
+                            taskPriorityButton.style.borderColor = '#FFA630';
+                    }
+                }
             });
         });
     }
 
-    // Create task modal
-//     const createTaskModal = document.createElement('div');
-//     createTaskModal.id = 'create-task-modal';
-//     createTaskModal.className = 'modal';
-//     // Create task form
-//     const createTaskForm = document.createElement('form');
-//     // Form fields
-//     const taskNameField = document.createElement('input');
-//     taskNameField.type = 'text';
-//     taskNameField.id = 'task-name';
-//     taskNameField.name = 'task-name';
-//     const descriptionField = document.createElement('input');
-//     const dueDateField = document.createElement('input');
-//     const priorityField = document.createElement('input');
-//     const listNameField = document.createElement('input');
-    
-//     <label for="fname">First name:</label><br>
-//   <input type="text" id="fname" name="fname"><br>
-//   <label for="lname">Last name:</label><br>
-//   <input type="text" id="lname" name="lname"></input>
-
-
-//     createTaskModal.appendChild(createTaskForm); 
+    const modalListSelect = document.getElementById('list-select');
+    lists.forEach(list => {
+        const modalListOption = document.createElement('option');
+        modalListOption.text = `${list.emoji} ${list.name}`;
+        modalListOption.id = list.name;
+        modalListSelect.appendChild(modalListOption);
+        console.log('options created');
+    });   
 
     // When the create task button is clicked, add the inputted task to the correct list 
     createTaskContainer.addEventListener('click', () => {
