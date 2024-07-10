@@ -132,10 +132,11 @@ input:focus, textarea:focus {
     /* Adjust font size to match the icon */
 }
 
-#create-task-modal {
+#create-task-dialog {
     border: var(--grey) 2px solid;
     border-radius: 8px;
-    padding: 5px;
+    padding: 20px;
+    width: 50%;
     /* display: flex; */
 }
 

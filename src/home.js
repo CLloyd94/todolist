@@ -63,7 +63,7 @@ export default function homePage() {
         });
     }
     const allLists = lists.concat(userListsArray);
-    // For the below, we should create a pop-up modal
+    // For the below, we should create a pop-up dialog
 
 
     // When the create list button is clicked, add the inputted name to the projects array
@@ -164,24 +164,36 @@ export default function homePage() {
         });
     }
 
-    const modalListSelect = document.getElementById('list-select');
+    const createTaskDialog = document.getElementById('create-task-dialog');
+
+    const dialogListSelect = document.getElementById('list-select');
     lists.forEach(list => {
-        const modalListOption = document.createElement('option');
-        modalListOption.text = `${list.emoji} ${list.name}`;
-        modalListOption.id = list.name;
-        modalListSelect.appendChild(modalListOption);
+        const dialogListOption = document.createElement('option');
+        dialogListOption.text = `${list.emoji} ${list.name}`;
+        dialogListOption.id = list.name;
+        dialogListSelect.appendChild(dialogListOption);
         console.log('options created');
     });   
 
     // When the create task button is clicked, add the inputted task to the correct list 
     createTaskContainer.addEventListener('click', () => {
-        if (currentListId !== null) {
-            const newTask = createTask(currentListId);
-            tasksArray.push(newTask);
-            appendTask();
-        }
-        else {
-            alert('Please select a list first.');
+        // If the dialog isn't displayed, display it and hide the create task button
+        if (createTaskDialog.style.display !== 'none' || createTaskDialog.style.display !== '') {
+            createTaskDialog.style.display = 'block';
+            createTaskContainer.style.display = 'none';
+        
+            if (currentListId !== null) {
+                const newTask = createTask(currentListId);
+                tasksArray.push(newTask);
+                appendTask();
+            }
         }
     });
+
+    window.onclick = function(event) {
+        if (event.target == createTaskDialog) {
+            createTaskDialog.style.display = 'none';
+            createTaskContainer.style.display = 'block';
+        }
+    }
 }

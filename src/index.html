@@ -14,15 +14,14 @@
             </ul>
         </div>
         <div id="content">
-            <div id="create-task-modal" class="modal">
-                <form id="create-task-form">
+            <dialog id="create-task-dialog">
+                <form id="create-task-form" method="dialog">
                     <div class="form-group" id="form-group-1">
                         <input type="text" id="task-name" name="task-name" placeholder="Task name">
                         <textarea id="description" name="description" placeholder="Description"></textarea>
                     </div>
                     <div class="form-group">
-                        <input type="date" id="task-due-date" name="task-due-date"/>
-                        <button type="button" id="due-date-button" class="button">Due date</button>
+                        <input type="date" id="task-due-date" name="task-due-date" />
                         <select id="priority-select" name="priority-select" class="button">
                             <option value="priority">⚪️ Priority</option>
                             <option value="priority" id="high-priority">🔴 High priority</option>
@@ -35,7 +34,12 @@
                             <!-- Add other list options here -->
                         </select>
                     </div>
+                    <menu>
+                        <button type="submit">Create task</button>
+                        <button type="reset">Cancel</button>
+                    </menu>
                 </form>
+            </dialog>
             </div>
         </div>
     </div>
