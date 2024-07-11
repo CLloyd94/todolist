@@ -4,7 +4,7 @@ import List from './lists.js';
 
 const tasks = [];
 
-export function createTask(listId) {
+export function createTask(listId, taskName, description, dueDate, priority) {
     const list = lists.find(list => list.id === listId);
     if (!(list)) {
         throw new Error('List not found');
@@ -13,10 +13,8 @@ export function createTask(listId) {
         throw new Error('Invalid list provided');
     }
     const taskId = Math.floor(Math.random() * 100);
-    const taskName = prompt('Enter the name of your task');
-    const newTask = new Task(taskId, taskName);
+    const newTask = new Task(taskId, taskName, description, dueDate, priority);
     list.addTask(newTask);
-    tasks.push(newTask);
     return newTask;
 }
 

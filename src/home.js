@@ -1,6 +1,5 @@
 import List from './lists.js';
 import { createList, updateList, deleteList, lists } from './listController.js';
-// import { lists } from './listController.js';
 import { createTask, updateTask, deleteTask, toggleTaskCompletion } from './taskController.js';
 
 export default function homePage() {
@@ -178,19 +177,38 @@ export default function homePage() {
     // When the create task button is clicked, add the inputted task to the correct list 
     createTaskContainer.addEventListener('click', () => {
         // If the dialog isn't displayed, display it and hide the create task button
-        if (createTaskDialog.style.display !== 'none' || createTaskDialog.style.display !== '') {
-            createTaskDialog.style.display = 'block';
-            createTaskContainer.style.display = 'none';
-        
-            if (currentListId !== null) {
-                const newTask = createTask(currentListId);
-                tasksArray.push(newTask);
-                appendTask();
-            }
-        }
+        createTaskDialog.style.display = 'block';
+        createTaskContainer.style.display = 'none';
     });
 
-    window.onclick = function(event) {
+    document.getElementById('create-task-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const taskName = document.getElementById('task-name').value;
+        const description = document.getElementById('description').value;
+        const dueDate = document.getElementById('due-date').value;
+        const priority = document.getElementById('priority-select').value;
+        const listName = document.getElementById('list-select').value;
+        // Use the find function to find a list that matches the list name, then retrieve its ID
+        const selectedList = lists.find(list => list.name === listName);
+
+        if (!selectedList) {
+            throw new Error('Selected list not found.');
+        }
+
+        // Using the list name, look up the list ID
+        const listID = selectedList.id;
+        
+        const newTask = createTask(listID, taskName, description, dueDate, priority);
+        tasksArray.push(newTask);
+        appendTask();
+
+        // Hide the dialog
+        createTaskDialog.style.display = 'none';
+        createTaskContainer.style.display = 'block';
+    });
+
+    window.onclick = function (event) {
         if (event.target == createTaskDialog) {
             createTaskDialog.style.display = 'none';
             createTaskContainer.style.display = 'block';
