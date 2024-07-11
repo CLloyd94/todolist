@@ -111,8 +111,9 @@ export default function homePage() {
     const tasksArray = [];
 
     // Function for adding tasks to the content container
-    function appendTask(listId) {
+    function appendTask() {
         taskList.innerHTML = '';
+        // Instead of tasks array, retrieve tasks for the current/selected list?
         tasksArray.forEach(task => {
             const taskItem = document.createElement('li');
             taskItem.className = 'task-item';
@@ -149,6 +150,8 @@ export default function homePage() {
             // Add task item to list and add dividing line
             // With task list, we need to get the ID/name of the current list,
             // and only add it to the list if it matches the list the user specified
+            // Using the list ID, use the addtasks function from lists.js
+            // taskList.appendChild(list.tasks);
             taskList.appendChild(taskItem);
             taskList.appendChild(dividingLine);
 
@@ -191,6 +194,7 @@ export default function homePage() {
         createTaskContainer.style.display = 'none';
     });
 
+    // List dropdown for create task dialog
     const dialogListSelect = document.getElementById('list-select');
     lists.forEach(list => {
         const dialogListOption = document.createElement('option');
@@ -214,13 +218,13 @@ export default function homePage() {
         if (!selectedList) {
             throw new Error('Selected list not found.');
         }
-
         // Using the list name, look up the list ID
         const listId = selectedList.id;
         
         const newTask = createTask(listId, taskName, description, dueDate, priority);
-        tasksArray.push(newTask);
-        appendTask(listId);
+        listName.addTask(newTask);
+        // tasksArray.push(newTask);
+        appendTask();
 
         // Hide the dialog
         createTaskDialog.style.display = 'none';
