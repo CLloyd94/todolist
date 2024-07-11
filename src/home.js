@@ -15,13 +15,19 @@ export default function homePage() {
     lists.push(new List(2, 'Today', '🌅'));
     lists.push(new List(3, 'Inbox', '📥'));
 
+    createTask(1, 'test task for All', 'test description', '2024-07-31', 'high-priority');
+    
+
     lists.forEach(list => {
         const listItem = document.createElement('li');
         const button = document.createElement('button');
-        button.textContent = `${list.emoji} ${list.name}`;
+        // Display the number of incomplete tasks per list
+        const incompleteTasks = list.tasks.filter((task) => task.completed === false).length;
+        button.textContent = `${list.emoji} ${list.name} ${incompleteTasks}`;
         button.id = list.name;
         listItem.appendChild(button);
         smartListsContainer.appendChild(listItem);
+        console.log(`All list tasks: ${list.tasks}`)
 
         listItem.addEventListener('click', () => {
             listNameHeading.textContent = (`${list.emoji} ${list.name}`);
@@ -69,7 +75,6 @@ export default function homePage() {
     createListButton.addEventListener('click', () => {
         const newList = createList();
         userListsArray.push(newList);
-        // console.log(userListsArray);
         appendList();
     });
 
@@ -87,11 +92,12 @@ export default function homePage() {
     createTaskText.id = 'create-task-text';
     createTaskContainer.appendChild(createTaskButton);
     createTaskContainer.appendChild(createTaskText);
-    content.appendChild(createTaskContainer);
+    
 
     const taskList = document.createElement('ul');
     taskList.id = 'task-list';
     content.appendChild(taskList);
+    content.appendChild(createTaskContainer);
 
     const tasksArray = [];
 
@@ -169,9 +175,8 @@ export default function homePage() {
     lists.forEach(list => {
         const dialogListOption = document.createElement('option');
         dialogListOption.text = `${list.emoji} ${list.name}`;
-        dialogListOption.id = list.name;
+        dialogListOption.value = list.name;
         dialogListSelect.appendChild(dialogListOption);
-        console.log('options created');
     });   
 
     // When the create task button is clicked, add the inputted task to the correct list 
