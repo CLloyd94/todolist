@@ -71,10 +71,5 @@ export default class Task {
     // Toggle task complete
     toggleComplete() {
         this.completed = !this.completed;
-        console.log(`Task completion status is now ${this.completed}`);
-    } 
-    // set status(status) {
-    //     this._status = status;
-    //     console.log(`Task status is now ${this.status}`);
-    // }
+    }
 } 

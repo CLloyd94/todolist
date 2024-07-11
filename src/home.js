@@ -22,16 +22,23 @@ export default function homePage() {
         const listItem = document.createElement('li');
         const button = document.createElement('button');
         // Display the number of incomplete tasks per list
-        const incompleteTasks = list.tasks.filter((task) => task.completed === false).length;
-        button.textContent = `${list.emoji} ${list.name} ${incompleteTasks}`;
+        const incompleteTasks = list.tasks.filter((task) => task.completed === false);
+        const incompleteTasksDisplay = document.createElement('p');
+        const numIncompleteTasks = incompleteTasks.length;
+        if (numIncompleteTasks !== 0) {
+            incompleteTasksDisplay.textContent = numIncompleteTasks;
+        }        
+        button.textContent = `${list.emoji} ${list.name}`;
         button.id = list.name;
         listItem.appendChild(button);
+        listItem.appendChild(incompleteTasksDisplay);
         smartListsContainer.appendChild(listItem);
         console.log(`All list tasks: ${list.tasks}`)
 
         listItem.addEventListener('click', () => {
             listNameHeading.textContent = (`${list.emoji} ${list.name}`);
             currentListId = list.id;
+            console.log(`current list ID: ${currentListId}`);
         });
     });
 
@@ -64,12 +71,10 @@ export default function homePage() {
             listItem.addEventListener('click', () => {
                 listNameHeading.textContent = (`${list.emoji} ${list.name}`);
                 currentListId = list.id;
+                console.log(`current list ID: ${currentListId}`);
             });
         });
     }
-    const allLists = lists.concat(userListsArray);
-    // For the below, we should create a pop-up dialog
-
 
     // When the create list button is clicked, add the inputted name to the projects array
     createListButton.addEventListener('click', () => {
@@ -78,10 +83,13 @@ export default function homePage() {
         appendList();
     });
 
+    // Add the user's custom lists to the sidebar
     userListsArray.forEach(list => appendList(list));
 
+    // What's the initially rendered list? Setting this to a number doesn't work.
     let currentListId = null;
 
+    // Create a 'create task' button
     const createTaskContainer = document.createElement('div');
     createTaskContainer.id = 'create-task-container';
     const createTaskButton = document.createElement('button');
@@ -93,15 +101,17 @@ export default function homePage() {
     createTaskContainer.appendChild(createTaskButton);
     createTaskContainer.appendChild(createTaskText);
     
-
+    // List of all tasks in the content container
     const taskList = document.createElement('ul');
     taskList.id = 'task-list';
+    // Add the list of tasks to the content container, then the create task button
     content.appendChild(taskList);
     content.appendChild(createTaskContainer);
 
     const tasksArray = [];
 
-    function appendTask() {
+    // Function for adding tasks to the content container
+    function appendTask(listId) {
         taskList.innerHTML = '';
         tasksArray.forEach(task => {
             const taskItem = document.createElement('li');
@@ -124,6 +134,7 @@ export default function homePage() {
                 default:
                     taskPriorityButton.style.borderColor = '#FFA630';
             }
+            // Display key details for each task
             const taskName = document.createElement('p');
             taskName.textContent = task.name;
             const dueDate = document.createElement('p');
@@ -136,12 +147,13 @@ export default function homePage() {
             taskItem.appendChild(taskName);
             taskItem.appendChild(dueDate);
             // Add task item to list and add dividing line
+            // With task list, we need to get the ID/name of the current list,
+            // and only add it to the list if it matches the list the user specified
             taskList.appendChild(taskItem);
             taskList.appendChild(dividingLine);
 
             // Also when clicked, toggle its done status
             taskPriorityButton.addEventListener('click', () => {
-                console.log('task priority button clicked!');
                 task.toggleComplete();
                 // If it's done, apply strikethrough text
                 if (task.completed) {
@@ -169,15 +181,8 @@ export default function homePage() {
         });
     }
 
+    // 'Create task' dialog plus its content
     const createTaskDialog = document.getElementById('create-task-dialog');
-
-    const dialogListSelect = document.getElementById('list-select');
-    lists.forEach(list => {
-        const dialogListOption = document.createElement('option');
-        dialogListOption.text = `${list.emoji} ${list.name}`;
-        dialogListOption.value = list.name;
-        dialogListSelect.appendChild(dialogListOption);
-    });   
 
     // When the create task button is clicked, add the inputted task to the correct list 
     createTaskContainer.addEventListener('click', () => {
@@ -186,6 +191,15 @@ export default function homePage() {
         createTaskContainer.style.display = 'none';
     });
 
+    const dialogListSelect = document.getElementById('list-select');
+    lists.forEach(list => {
+        const dialogListOption = document.createElement('option');
+        dialogListOption.text = `${list.emoji} ${list.name}`;
+        dialogListOption.value = list.name;
+        dialogListSelect.appendChild(dialogListOption);
+    });
+
+    // Logic for creating new tasks from form data
     document.getElementById('create-task-form').addEventListener('submit', (event) => {
         event.preventDefault();
 
@@ -202,11 +216,11 @@ export default function homePage() {
         }
 
         // Using the list name, look up the list ID
-        const listID = selectedList.id;
+        const listId = selectedList.id;
         
-        const newTask = createTask(listID, taskName, description, dueDate, priority);
+        const newTask = createTask(listId, taskName, description, dueDate, priority);
         tasksArray.push(newTask);
-        appendTask();
+        appendTask(listId);
 
         // Hide the dialog
         createTaskDialog.style.display = 'none';
