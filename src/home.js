@@ -114,7 +114,11 @@ export default function homePage() {
     function appendTask() {
         taskList.innerHTML = '';
         // Instead of tasks array, retrieve tasks for the current/selected list?
-        tasksArray.forEach(task => {
+        // Using the currentListId, look up the list with that ID
+        // Retrieve all tasks from that list
+        // Display those tasks in the DOM
+        const selectedList = lists.find(list => list.id === currentListId);
+        selectedList.tasks.forEach(task => {
             const taskItem = document.createElement('li');
             taskItem.className = 'task-item';
             const taskPriorityButton = document.createElement('button');
@@ -222,8 +226,10 @@ export default function homePage() {
         const listId = selectedList.id;
         
         const newTask = createTask(listId, taskName, description, dueDate, priority);
-        listName.addTask(newTask);
-        // tasksArray.push(newTask);
+        console.log(newTask);
+        selectedList.addTask(newTask);
+        // console.log(typeof (selectedList));
+        // console.log(`selectedList tasks: ${selectedList.listInfo()}`);
         appendTask();
 
         // Hide the dialog
