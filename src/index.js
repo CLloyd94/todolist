@@ -9,6 +9,7 @@ console.log('index.js file loaded correctly!');
 
 document.addEventListener('DOMContentLoaded', () => {
     homePage();
+    currentListId = 1;
 });
 
 if (homePage) {

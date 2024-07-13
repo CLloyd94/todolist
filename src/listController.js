@@ -4,8 +4,11 @@ export const lists = [];
 
 // CREATE
 export function createList() {
-    const listId = Math.floor(Math.random() * 100);
-    // We should check if the listID does not already exist. While loop to check this.
+    let listId = Math.floor(Math.random() * 100);
+    // Ensure the list ID is unique
+    do {
+        listId = Math.floor(Math.random() * 100);
+    } while (lists.some(list => list.id === listId));
     // For the below, we should create a pop-up modal
     const listName = prompt('Enter the name of your list.');
     const listEmoji = prompt('Enter the emoji for your list.');
@@ -23,7 +26,7 @@ export function getListById(listId) {
 export function updateList(list, { listId, name, emoji }) {
     // Logic to update a list with new details
     if (name !== undefined) list.name = name;
-    if (emoji !== undefined) list.name = emoji;
+    if (emoji !== undefined) list.emoji = emoji;
     console.log(`List ${listId} updated to: ${name}, ${emoji}`);
 }
 

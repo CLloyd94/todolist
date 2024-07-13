@@ -76,7 +76,7 @@ export default function homePage() {
                 listNameHeading.textContent = (`${list.emoji} ${list.name}`);
                 currentListId = list.id;
                 appendTask();
-                console.log(`current list ID: ${currentListId}`);
+                console.log(`current list ID: ${currentListId}`); // This doesn't appear to include the user's lists; not in lists array?
             });
         });
     }
@@ -212,9 +212,6 @@ export default function homePage() {
         
         const newTask = createTask(listId, taskName, description, dueDate, priority);
         console.log(newTask);
-        selectedList.addTask(newTask);
-        // console.log(typeof (selectedList));
-        // console.log(`selectedList tasks: ${selectedList.listInfo()}`);
         appendTask();
 
         // Hide the dialog

@@ -12,9 +12,15 @@ export function createTask(listId, taskName, description, dueDate, priority) {
     else if (!(list instanceof List)) {
         throw new Error('Invalid list provided');
     }
-    const taskId = Math.floor(Math.random() * 100);
+    let taskId;
+    // Ensure the task ID is unique
+    do {
+        taskId = Math.floor(Math.random() * 100);
+    } while (tasks.some(task => task.id === taskId));
+
     const newTask = new Task(taskId, taskName, description, dueDate, priority);
     list.addTask(newTask);
+    tasks.push(newTask);
     return newTask;
 }
 
@@ -30,12 +36,21 @@ export function updateTask(task, { name, description, dueDate, priority, list, c
 
 // DELETE
 export function deleteTask(listId, taskId) {
+    const list = lists.find(list => list.id === listId);
     // listId.removeTask(taskId);
     // Optionally remove from central tasks array if used
+    if (list) {
+        const taskIndex = list.tasks.findIndex(task => task.id === taskId);
+        if (taskIndex !== -1) {
+            tasks.splice(taskIndex, 1);
+        }
+    }
+
     const taskIndex = tasks.findIndex(task => task.id === taskId);
     if (taskIndex !== -1) {
         tasks.splice(taskIndex, 1);
     }
+    
 }
 // MARK COMPLETE
 export function toggleTaskCompletion(task) {
