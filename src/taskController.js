@@ -29,8 +29,8 @@ export function updateTask(task, { name, description, dueDate, priority, list, c
 }
 
 // DELETE
-export function deleteTask(list, taskId) {
-    list.removeTask(taskId);
+export function deleteTask(listId, taskId) {
+    // listId.removeTask(taskId);
     // Optionally remove from central tasks array if used
     const taskIndex = tasks.findIndex(task => task.id === taskId);
     if (taskIndex !== -1) {

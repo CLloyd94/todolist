@@ -16,9 +16,11 @@ export default function homePage() {
     lists.push(new List(3, 'Inbox', '📥'));
 
     createTask(1, 'test task for All', 'test description', '2024-07-31', 'high-priority');
-    
+
+    globalThis.lists = lists;
 
     lists.forEach(list => {
+        globalThis[`list${list.id}Info`] = () => list.listInfo;
         const listItem = document.createElement('li');
         const button = document.createElement('button');
         // Display the number of incomplete tasks per list
@@ -87,7 +89,8 @@ export default function homePage() {
     userListsArray.forEach(list => appendList(list));
 
     // What's the initially rendered list? Setting this to a number doesn't work.
-    let currentListId = null;
+    let currentListId = null; // In developer tools, it will always show this due to scope.
+    globalThis.currentListId = currentListId;
 
     // Create a 'create task' button
     const createTaskContainer = document.createElement('div');
