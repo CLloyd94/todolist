@@ -3,6 +3,7 @@ import { createList, updateList, deleteList, lists } from './listController.js';
 import { createTask, updateTask, deleteTask, toggleTaskCompletion } from './taskController.js';
 
 export default function homePage() {
+
     const content = document.getElementById('content');
     const listNameHeading = document.createElement('h1');
     content.appendChild(listNameHeading);
@@ -18,6 +19,8 @@ export default function homePage() {
     createTask(1, 'test task for All', 'test description', '2024-07-31', 'high-priority');
 
     globalThis.lists = lists;
+
+    
 
     // Add lists to sidebar
     lists.forEach(list => {
@@ -45,6 +48,14 @@ export default function homePage() {
             console.log(`current list ID: ${currentListId}`);
         });
     });
+
+    function initialRender() {
+        const initialList = lists.find(list => list.id === 1);
+        return (`${initialList.emoji} ${initialList.name}`);
+        // currentListId = initialList.id;
+    }
+
+    listNameHeading.textContent = initialRender();
 
     // CREATE LISTS
     const userListsContainer = document.getElementById('user-lists-container');
@@ -201,8 +212,17 @@ export default function homePage() {
         const dueDate = document.getElementById('due-date').value;
         const priority = document.getElementById('priority-select').value;
         const listName = document.getElementById('list-select').value;
+
         // Use the find function to find a list that matches the list name, then retrieve its ID
-        const selectedList = lists.find(list => list.name === listName);
+
+        let selectedList;
+
+        if (!listName) {
+            selectedList = lists.find(list => list.id === currentListId);
+        }
+        else {
+            selectedList = lists.find(list => list.name === listName);
+        }
 
         if (!selectedList) {
             throw new Error('Selected list not found.');
