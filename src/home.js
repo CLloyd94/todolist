@@ -19,12 +19,13 @@ export default function homePage() {
 
     globalThis.lists = lists;
 
+    // Add lists to sidebar
     lists.forEach(list => {
         globalThis[`list${list.id}Info`] = () => list.listInfo;
         const listItem = document.createElement('li');
         const button = document.createElement('button');
         // Display the number of incomplete tasks per list
-        const incompleteTasks = list.tasks.filter((task) => task.completed === false);
+        const incompleteTasks = list.tasks.filter((task) => !task.completed);
         const incompleteTasksDisplay = document.createElement('p');
         const numIncompleteTasks = incompleteTasks.length;
         if (numIncompleteTasks !== 0) {
@@ -40,6 +41,7 @@ export default function homePage() {
         listItem.addEventListener('click', () => {
             listNameHeading.textContent = (`${list.emoji} ${list.name}`);
             currentListId = list.id;
+            appendTask();
             console.log(`current list ID: ${currentListId}`);
         });
     });
@@ -73,6 +75,7 @@ export default function homePage() {
             listItem.addEventListener('click', () => {
                 listNameHeading.textContent = (`${list.emoji} ${list.name}`);
                 currentListId = list.id;
+                appendTask();
                 console.log(`current list ID: ${currentListId}`);
             });
         });
@@ -110,8 +113,6 @@ export default function homePage() {
     // Add the list of tasks to the content container, then the create task button
     content.appendChild(taskList);
     content.appendChild(createTaskContainer);
-
-    const tasksArray = [];
 
     // Function for adding tasks to the content container
     function appendTask() {
@@ -165,28 +166,9 @@ export default function homePage() {
             // Also when clicked, toggle its done status
             taskPriorityButton.addEventListener('click', () => {
                 task.toggleComplete();
-                // If it's done, apply strikethrough text
-                if (task.completed) {
-                    taskName.style.textDecoration = 'line-through';
-                    taskPriorityButton.style.borderColor = '#c8c9cc';
-                }
-                // This needs to be put into its own function
-                else {
-                    taskName.style.textDecoration = 'none';
-                    switch (task.priority) {
-                        case 'high':
-                            taskPriorityButton.style.borderColor = '#CE2B37';
-                            break;
-                        case 'medium':
-                            taskPriorityButton.style.borderColor = '#FFA630';
-                            break;
-                        case 'low':
-                            taskPriorityButton.style.borderColor = '#3777FF';
-                            break;
-                        default:
-                            taskPriorityButton.style.borderColor = '#FFA630';
-                    }
-                }
+                // If it's done, apply strikethrough text and make text & button grey
+                taskName.style.textDecoration = task.completed ? 'line-through' : 'none';
+                taskPriorityButton.style.borderColor = task.completed ? '#c8c9cc' : taskPriorityButton.style.borderColor; // still needs fixing
             });
         });
     }
