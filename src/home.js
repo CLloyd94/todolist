@@ -12,15 +12,11 @@ export default function homePage() {
     const smartListsContainer = document.getElementById('smart-lists-container');
 
     // const smartListsArray = [];
-    lists.push(new List(1, 'All', '📚'));
+    lists.push(new List(1, 'Inbox', '📥'));
     lists.push(new List(2, 'Today', '🌅'));
-    lists.push(new List(3, 'Inbox', '📥'));
+    lists.push(new List(3, 'This week', '🗓️'));
 
-    createTask(1, 'test task for All', 'test description', '2024-07-31', 'high-priority');
-
-    globalThis.lists = lists;
-
-    
+    globalThis.lists = lists; 
 
     // Add lists to sidebar
     lists.forEach(list => {
@@ -196,10 +192,15 @@ export default function homePage() {
 
     // List dropdown for create task dialog
     const dialogListSelect = document.getElementById('list-select');
+
     lists.forEach(list => {
         const dialogListOption = document.createElement('option');
         dialogListOption.text = `${list.emoji} ${list.name}`;
         dialogListOption.value = list.name;
+        dialogListOption.id = list.name;
+        if (dialogListOption.id === 'Inbox') {
+            dialogListOption.selected = true;
+        }
         dialogListSelect.appendChild(dialogListOption);
     });
 

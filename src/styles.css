@@ -195,3 +195,7 @@ input:focus, textarea:focus {
 #task-list {
     margin-bottom: 20px;
 }
+
+option:empty {
+    display: none;
+}
