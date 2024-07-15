@@ -5,13 +5,13 @@ import List from './lists.js';
 const tasks = [];
 
 export function createTask(listId, taskName, description, dueDate, priority) {
-    const list = lists.find(list => list.id === listId);
-    if (!(list)) {
-        throw new Error('List not found');
-    }
-    else if (!(list instanceof List)) {
-        throw new Error('Invalid list provided');
-    }
+    // const list = lists.find(list => list.id === listId);
+    // if (!(list)) {
+    //     throw new Error('List not found');
+    // }
+    // else if (!(list instanceof List)) {
+    //     throw new Error('Invalid list provided');
+    // }
     let taskId;
     // Ensure the task ID is unique
     do {
@@ -19,7 +19,7 @@ export function createTask(listId, taskName, description, dueDate, priority) {
     } while (tasks.some(task => task.id === taskId));
 
     const newTask = new Task(taskId, taskName, description, dueDate, priority);
-    list.addTask(newTask);
+    // list.addTask(newTask);
     tasks.push(newTask);
     return newTask;
 }
