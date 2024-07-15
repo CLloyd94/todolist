@@ -3,22 +3,18 @@ import List from './lists.js';
 export const lists = [];
 
 // CREATE
-export function createList() {
-    let listId = Math.floor(Math.random() * 100);
-    // Ensure the list ID is unique
+export function createList(listId, listName, listColor) {
     do {
         listId = Math.floor(Math.random() * 100);
     } while (lists.some(list => list.id === listId));
-    // For the below, we should create a pop-up modal
-    const listName = prompt('Enter the name of your list.');
-    const listEmoji = prompt('Enter the emoji for your list.');
-    const newList = new List(listId, listName, listEmoji);
+    
+    const newList = new List(listId, listName, listColor);
     lists.push(newList);
     console.log(newList.listInfo);
     return newList;
 }
 
-export function getListById(listId) {
+export function getListId(listId) {
     return lists.find(list => list.id === listId);
 }
 
