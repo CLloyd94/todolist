@@ -1,6 +1,7 @@
 import List from './lists.js';
 import { createList, updateList, deleteList, lists } from './listController.js';
 import { createTask, updateTask, deleteTask, toggleTaskCompletion } from './taskController.js';
+// Import the library
 
 export default function homePage() {
 
@@ -11,7 +12,6 @@ export default function homePage() {
     // CREATE SMART LISTS
     const smartListsContainer = document.getElementById('smart-lists-container');
 
-    // const smartListsArray = [];
     lists.push(new List(1, 'Inbox', '📥'));
     lists.push(new List(2, 'Today', '🌅'));
     lists.push(new List(3, 'This week', '🗓️'));
@@ -88,11 +88,44 @@ export default function homePage() {
         });
     }
 
+    // Need a dialog for 'create list' as well
+    const createListDialog = document.getElementById('create-list-dialog');
     // When the create list button is clicked, add the inputted name to the projects array
     createListButton.addEventListener('click', () => {
+        createListDialog.style.display = 'block';
+        createListDialog.style.display = 'none';
+
         const newList = createList();
+        // Need to get this into the global lists array while still appending to the sidebar.
+        // lists.push(new List(3, 'This week', '🗓️')); something like this?
         userListsArray.push(newList);
         appendList();
+    });
+
+    // Logic for creating new tasks from form data
+    document.getElementById('create-list-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const listName = document.getElementById('list-name').value;
+        const listColor = document.getElementById('list-color').value;
+        // Push the new list to the lists array
+        // lists.push(new List(1, 'Inbox', '📥'));
+        
+        // Use the find function to find a list that matches the list name, then retrieve its ID
+        if (!listName) {
+            alert('Please enter a list name');
+        }
+        else if (!listColor) {
+            alert('Please select a list colour');
+        }
+
+        const newList = createList(listId, listName, listColor);
+        console.log(newList);
+        appendList();
+
+        // Hide the dialog
+        createTaskDialog.style.display = 'none';
+        createTaskContainer.style.display = 'block';
     });
 
     // Add the user's custom lists to the sidebar
@@ -232,6 +265,7 @@ export default function homePage() {
         const listId = selectedList.id;
         
         const newTask = createTask(listId, taskName, description, dueDate, priority);
+        selectedList.addTask(newTask);
         console.log(newTask);
         appendTask();
 
