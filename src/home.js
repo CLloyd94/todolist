@@ -4,19 +4,24 @@ import { createTask, updateTask, deleteTask, toggleTaskCompletion } from './task
 // Import the library
 
 export default function homePage() {
-
     const content = document.getElementById('content');
     const listNameHeading = document.createElement('h1');
-    content.appendChild(listNameHeading);
     
-    // CREATE SMART LISTS
-    const smartListsContainer = document.getElementById('smart-lists-container');
+    content.appendChild(listNameHeading);
+
+    globalThis.lists = lists; 
 
     lists.push(new List(1, 'Inbox', '📥'));
     lists.push(new List(2, 'Today', '🌅'));
     lists.push(new List(3, 'This week', '🗓️'));
 
-    globalThis.lists = lists; 
+    function initialRender() {
+        const initialList = lists.find(list => list.id === 1);
+        return (`${initialList.emoji} ${initialList.name}`);
+        // currentListId = initialList.id;
+    }  
+
+    listNameHeading.textContent = initialRender();
 
     // Add lists to sidebar
     lists.forEach(list => {
@@ -24,18 +29,18 @@ export default function homePage() {
         const listItem = document.createElement('li');
         const button = document.createElement('button');
         // Display the number of incomplete tasks per list
-        const incompleteTasks = list.tasks.filter((task) => !task.completed);
+        const incompleteTasksArray = [];
+        let incompleteTasks = list.tasks.filter((task) => !task.completed);
+        incompleteTasksArray.push(incompleteTasks);
         const incompleteTasksDisplay = document.createElement('p');
-        const numIncompleteTasks = incompleteTasks.length;
-        if (numIncompleteTasks !== 0) {
-            incompleteTasksDisplay.textContent = numIncompleteTasks;
-        }        
+        incompleteTasksDisplay.textContent = incompleteTasksArray.length ? incompleteTasksArray.length : '';
         button.textContent = `${list.emoji} ${list.name}`;
         button.id = list.name;
         listItem.appendChild(button);
         listItem.appendChild(incompleteTasksDisplay);
+        const smartListsContainer = document.getElementById('smart-lists-container');
         smartListsContainer.appendChild(listItem);
-        console.log(`All list tasks: ${list.tasks}`)
+        console.log(`All list tasks: ${list.tasks}`);
 
         listItem.addEventListener('click', () => {
             listNameHeading.textContent = (`${list.emoji} ${list.name}`);
@@ -44,14 +49,6 @@ export default function homePage() {
             console.log(`current list ID: ${currentListId}`);
         });
     });
-
-    function initialRender() {
-        const initialList = lists.find(list => list.id === 1);
-        return (`${initialList.emoji} ${initialList.name}`);
-        // currentListId = initialList.id;
-    }
-
-    listNameHeading.textContent = initialRender();
 
     // CREATE LISTS
     const userListsContainer = document.getElementById('user-lists-container');
@@ -65,7 +62,7 @@ export default function homePage() {
     createListButton.id = 'create-list';
     userListsHeadingContainer.appendChild(createListButton);
     
-    // Add logic for user input adding a project/list to this array
+    // Need to instead use the current lists array, and somehow have the user lists below 'my projects'
     const userListsArray = [];
 
     function appendList() {
@@ -88,7 +85,7 @@ export default function homePage() {
         });
     }
 
-    // Need a dialog for 'create list' as well
+    // 'Create list' dialog
     const createListDialog = document.getElementById('create-list-dialog');
     // When the create list button is clicked, add the inputted name to the projects array
     createListButton.addEventListener('click', () => {
@@ -102,7 +99,7 @@ export default function homePage() {
         appendList();
     });
 
-    // Logic for creating new tasks from form data
+    // Logic for handling user input from create task form
     document.getElementById('create-list-form').addEventListener('submit', (event) => {
         event.preventDefault();
 
@@ -119,6 +116,8 @@ export default function homePage() {
             alert('Please select a list colour');
         }
 
+        // How do I handle passing data to each of the parameters in the createList function?
+        // Especially listId, which the user can't provide?
         const newList = createList(listId, listName, listColor);
         console.log(newList);
         appendList();
