@@ -87,13 +87,14 @@ export default function homePage() {
     // When the create list button is clicked, add the inputted name to the projects array
     createListButton.addEventListener('click', () => {
         createListDialog.style.display = 'block';
-        createListDialog.style.display = 'none';
+        createTaskContainer.style.display = 'none';
 
         const newList = createList();
         // Need to get this into the global lists array while still appending to the sidebar.
         // lists.push(new List(3, 'This week', '🗓️')); something like this?
         userListsArray.push(newList);
         appendList();
+        createTaskContainer.style.display = 'block';
     });
 
     // Logic for handling user input from create task form
@@ -216,7 +217,7 @@ export default function homePage() {
     createTaskContainer.addEventListener('click', () => {
         // If the dialog isn't displayed, display it and hide the create task button
         createTaskDialog.style.display = 'block';
-        createTaskContainer.style.display = 'none';
+        // createTaskContainer.style.display = 'none'; // We may need a 'toggle dialog' function
     });
 
     // List dropdown for create task dialog
@@ -270,10 +271,19 @@ export default function homePage() {
         createTaskContainer.style.display = 'block';
     });
 
-    window.onclick = function (event) {
-        if (event.target == createTaskDialog) {
-            createTaskDialog.style.display = 'none';
-            createTaskContainer.style.display = 'block';
-        }
+    function hideDialog() {
+        const dialogs = document.querySelectorAll('dialog');
+        dialogs.forEach((dialog) => {
+            dialog.style.display = 'none';
+        });
     }
+
+    const cancelButtons = document.querySelectorAll('.reset');
+    cancelButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            hideDialog();
+            console.log('dialog should now be hidden');
+        });
+    });
+    
 }
