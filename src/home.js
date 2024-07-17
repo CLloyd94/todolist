@@ -15,10 +15,15 @@ export default function homePage() {
     lists.push(new List(2, 'Today', '🌅'));
     lists.push(new List(3, 'This week', '🗓️'));
 
+    // How do we set the currentlistId 
+    // What's the initially rendered list? Setting this to a number doesn't work.
+    let currentListId = null; // In developer tools, it will always show this due to scope.
+    globalThis.currentListId = currentListId;
+
     function initialRender() {
         const initialList = lists.find(list => list.id === 1);
+        currentListId = initialList.id;
         return (`${initialList.emoji} ${initialList.name}`);
-        // currentListId = initialList.id;
     }  
 
     listNameHeading.textContent = initialRender();
@@ -26,7 +31,7 @@ export default function homePage() {
     // Add lists to sidebar
     lists.forEach(list => {
         globalThis[`list${list.id}Info`] = () => list.listInfo;
-        console.log(list.listInfo);
+        // console.log(list.listInfo);
         const listItem = document.createElement('li');
         const button = document.createElement('button');
         const listParagraph = document.createElement('p');
@@ -37,7 +42,7 @@ export default function homePage() {
         listItem.appendChild(listParagraph);
         const smartListsContainer = document.getElementById('smart-lists-container');
         smartListsContainer.appendChild(listItem);
-        console.log(`All list tasks: ${list.tasks}`);
+        // console.log(`All list tasks: ${list.tasks}`);
 
         listItem.addEventListener('click', () => {
             listNameHeading.textContent = (`${list.emoji} ${list.name}`);
@@ -116,7 +121,10 @@ export default function homePage() {
 
         // How do I handle passing data to each of the parameters in the createList function?
         // Especially listId, which the user can't provide?
-        const newList = createList(listId, listName, listColor);
+        
+        // Fix how createList interacts this is created
+        // Not adding list name correctly
+        const newList = createList(listName, listColor);
         console.log(newList);
         appendList();
 
@@ -128,10 +136,7 @@ export default function homePage() {
     // Add the user's custom lists to the sidebar
     userListsArray.forEach(list => appendList(list));
 
-    // What's the initially rendered list? Setting this to a number doesn't work.
-    let currentListId = null; // In developer tools, it will always show this due to scope.
-    globalThis.currentListId = currentListId;
-
+    
     // Create a 'create task' button
     const createTaskContainer = document.createElement('div');
     createTaskContainer.id = 'create-task-container';
@@ -159,6 +164,7 @@ export default function homePage() {
         // Retrieve all tasks from that list
         // Display those tasks in the DOM
         const selectedList = lists.find(list => list.id === currentListId);
+        // Something to do with the initial selected list
         selectedList.tasks.forEach(task => {
             const taskItem = document.createElement('li');
             taskItem.className = 'task-item';
@@ -264,6 +270,7 @@ export default function homePage() {
         const newTask = createTask(listId, taskName, description, dueDate, priority);
         selectedList.addTask(newTask);
         console.log(newTask);
+        // Something fishy here; appendTask appends all tasks, while not retaining a task's completion status
         appendTask();
 
         // Hide the dialog
