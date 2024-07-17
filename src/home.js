@@ -26,18 +26,15 @@ export default function homePage() {
     // Add lists to sidebar
     lists.forEach(list => {
         globalThis[`list${list.id}Info`] = () => list.listInfo;
+        console.log(list.listInfo);
         const listItem = document.createElement('li');
         const button = document.createElement('button');
-        // Display the number of incomplete tasks per list
-        const incompleteTasksArray = [];
-        let incompleteTasks = list.tasks.filter((task) => !task.completed);
-        incompleteTasksArray.push(incompleteTasks);
-        const incompleteTasksDisplay = document.createElement('p');
-        incompleteTasksDisplay.textContent = incompleteTasksArray.length ? incompleteTasksArray.length : '';
+        const listParagraph = document.createElement('p');
+        
         button.textContent = `${list.emoji} ${list.name}`;
         button.id = list.name;
         listItem.appendChild(button);
-        listItem.appendChild(incompleteTasksDisplay);
+        listItem.appendChild(listParagraph);
         const smartListsContainer = document.getElementById('smart-lists-container');
         smartListsContainer.appendChild(listItem);
         console.log(`All list tasks: ${list.tasks}`);
