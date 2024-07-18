@@ -11,9 +11,9 @@ export default function homePage() {
 
     globalThis.lists = lists; 
 
-    lists.push(new List(1, 'Inbox', '📥'));
-    lists.push(new List(2, 'Today', '🌅'));
-    lists.push(new List(3, 'This week', '🗓️'));
+    lists.push(new List(1, '📥 Inbox', 'blue'));
+    lists.push(new List(2, '🌅 Today', 'red'));
+    lists.push(new List(3, '🗓️ This week', 'orange'));
 
     // How do we set the currentlistId 
     // What's the initially rendered list? Setting this to a number doesn't work.
@@ -23,7 +23,7 @@ export default function homePage() {
     function initialRender() {
         const initialList = lists.find(list => list.id === 1);
         currentListId = initialList.id;
-        return (`${initialList.emoji} ${initialList.name}`);
+        return initialList.name;
     }  
 
     listNameHeading.textContent = initialRender();
@@ -36,7 +36,7 @@ export default function homePage() {
         const button = document.createElement('button');
         const listParagraph = document.createElement('p');
         
-        button.textContent = `${list.emoji} ${list.name}`;
+        button.textContent = `${list.name}`;
         button.id = list.name;
         listItem.appendChild(button);
         listItem.appendChild(listParagraph);
@@ -45,7 +45,7 @@ export default function homePage() {
         // console.log(`All list tasks: ${list.tasks}`);
 
         listItem.addEventListener('click', () => {
-            listNameHeading.textContent = (`${list.emoji} ${list.name}`);
+            listNameHeading.textContent = (`${list.name}`);
             currentListId = list.id;
             appendTask();
             console.log(`current list ID: ${currentListId}`);
@@ -75,7 +75,7 @@ export default function homePage() {
         userListsArray.forEach(list => {
             const listItem = document.createElement('li');
             const button = document.createElement('button');
-            button.textContent = `${list.emoji} ${list.name}`;
+            button.textContent = `${list.name}`;
             button.id = list.name;
             listItem.appendChild(button);
             userListsContainer.appendChild(listItem);
@@ -83,7 +83,7 @@ export default function homePage() {
             console.log(`list info: ${list.getInfo}`);
 
             listItem.addEventListener('click', () => {
-                listNameHeading.textContent = (`${list.emoji} ${list.name}`);
+                listNameHeading.textContent = (`${list.name}`);
                 currentListId = list.id;
                 appendTask();
                 console.log(`current list ID: ${currentListId}`); // This doesn't appear to include the user's lists; not in lists array?
@@ -119,23 +119,17 @@ export default function homePage() {
             return;
         }
 
-        // How do I handle passing data to each of the parameters in the createList function?
-        // Especially listId, which the user can't provide?
-        
-        // Fix how createList interacts this is created
-        // Not adding list name correctly
         const newList = createList(listName, listColor);
         console.log(newList);
+        userListsArray.push(newList);
         appendList(newList);
-
         // Hide the dialog
-        createTaskDialog.style.display = 'none';
+        createListDialog.style.display = 'none'      
         createTaskContainer.style.display = 'block';
     });
 
     // Add the user's custom lists to the sidebar
     userListsArray.forEach(list => appendList(list));
-
     
     // Create a 'create task' button
     const createTaskContainer = document.createElement('div');
@@ -231,7 +225,7 @@ export default function homePage() {
 
     lists.forEach(list => {
         const dialogListOption = document.createElement('option');
-        dialogListOption.text = `${list.emoji} ${list.name}`;
+        dialogListOption.text = `${list.name}`;
         dialogListOption.value = list.name;
         dialogListOption.id = list.name;
         if (dialogListOption.id === 'Inbox') {

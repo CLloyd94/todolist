@@ -1,14 +1,14 @@
 export default class List {
-    constructor(id, name, emoji) {
+    constructor(id, name, color) {
         this._id = id;
         this._name = name;
-        this._emoji = emoji;
+        this._color = color;
         this._tasks = [];
     }
 
     get listInfo() {
         return `List ID: ${this._id}, 
-        List emoji: ${this._emoji}, 
+        List color: ${this._color}, 
         List name: ${this._name}, 
         List tasks: ${this._tasks}`;
     }
@@ -21,8 +21,8 @@ export default class List {
         return this._name;
     }
 
-    get emoji() {
-        return this._emoji;
+    get color() {
+        return this._color;
     }
 
     get tasks() {
@@ -34,9 +34,9 @@ export default class List {
         console.log(`List name is now ${this._name}`);
     }
 
-    set emoji(newEmoji) {
-        this._emoji = newEmoji;
-        console.log(`List emoji is now ${this._emoji}`);
+    set color(newcolor) {
+        this._color = newcolor;
+        console.log(`List color is now ${this._color}`);
     }
 
     addTask(task) {

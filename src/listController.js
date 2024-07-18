@@ -20,11 +20,11 @@ export function getListId(listId) {
 }
 
 // UPDATE
-export function updateList(list, { listId, name, emoji }) {
+export function updateList(list, { listId, name, color }) {
     // Logic to update a list with new details
     if (name !== undefined) list.name = name;
-    if (emoji !== undefined) list.emoji = emoji;
-    console.log(`List ${listId} updated to: ${name}, ${emoji}`);
+    if (color !== undefined) list.color = color;
+    console.log(`List ${listId} updated to: ${name}, ${color}`);
 }
 
 // DELETE
