@@ -3,7 +3,8 @@ import List from './lists.js';
 export const lists = [];
 
 // CREATE
-export function createList(listId, listName, listColor) {
+export function createList(listName, listColor) {
+    let listId;
     do {
         listId = Math.floor(Math.random() * 100);
     } while (lists.some(list => list.id === listId));

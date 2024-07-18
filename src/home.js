@@ -66,6 +66,8 @@ export default function homePage() {
     
     // Need to instead use the current lists array, and somehow have the user lists below 'my projects'
     const userListsArray = [];
+    console.log(`userListsArray: ${userListsArray}`);
+    console.log(`userListsArray length before button press: ${userListsArray.length}`);
 
     function appendList() {
         userListsContainer.innerHTML = '';
@@ -77,6 +79,8 @@ export default function homePage() {
             button.id = list.name;
             listItem.appendChild(button);
             userListsContainer.appendChild(listItem);
+            console.log(`userListsArray length after button press: ${userListsArray.length}`);
+            console.log(`list info: ${list.getInfo}`);
 
             listItem.addEventListener('click', () => {
                 listNameHeading.textContent = (`${list.emoji} ${list.name}`);
@@ -93,13 +97,6 @@ export default function homePage() {
     createListButton.addEventListener('click', () => {
         createListDialog.style.display = 'block';
         createTaskContainer.style.display = 'none';
-
-        const newList = createList();
-        // Need to get this into the global lists array while still appending to the sidebar.
-        // lists.push(new List(3, 'This week', '🗓️')); something like this?
-        userListsArray.push(newList);
-        appendList();
-        createTaskContainer.style.display = 'block';
     });
 
     // Logic for handling user input from create task form
@@ -108,15 +105,18 @@ export default function homePage() {
 
         const listName = document.getElementById('list-name').value;
         const listColor = document.getElementById('list-color').value;
+        console.log(`listColor is ${ listColor }`);
         // Push the new list to the lists array
         // lists.push(new List(1, 'Inbox', '📥'));
         
         // Use the find function to find a list that matches the list name, then retrieve its ID
         if (!listName) {
             alert('Please enter a list name');
+            return;
         }
         else if (!listColor) {
             alert('Please select a list colour');
+            return;
         }
 
         // How do I handle passing data to each of the parameters in the createList function?
@@ -126,7 +126,7 @@ export default function homePage() {
         // Not adding list name correctly
         const newList = createList(listName, listColor);
         console.log(newList);
-        appendList();
+        appendList(newList);
 
         // Hide the dialog
         createTaskDialog.style.display = 'none';
