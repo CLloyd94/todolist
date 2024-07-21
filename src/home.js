@@ -143,12 +143,13 @@ export default function homePage() {
     // 'Create list' dialog
     // This should instead be converted to a modal?
     const createListModal = document.getElementById('create-list-modal');
+    // Default invisible
     createListModal.style.display = 'none';
 
     // When the create list button is clicked, add the inputted name to the projects array
     createListButton.addEventListener('click', () => {
-        createListModal.style.display = 'block';
-        createTaskContainer.style.display = 'none';
+        toggleVisibility(createListModal);
+        // toggleVisibility(createTaskContainer);
     });
 
     // Logic for handling user input from create task form
@@ -176,8 +177,8 @@ export default function homePage() {
         appendList(newList);
         addListToDialog();
         // Hide the dialog
-        createListModal.style.display = 'none'
-        createTaskContainer.style.display = 'block';
+        toggleVisibility(createListModal);
+        // toggleVisibility(createTaskContainer);
     });
 
     // Add the user's custom lists to the sidebar
@@ -268,8 +269,7 @@ export default function homePage() {
     // When the create task button is clicked, add the inputted task to the correct list 
     createTaskContainer.addEventListener('click', () => {
         // If the dialog isn't displayed, display it and hide the create task button
-        createTaskDialog.style.display = 'block';
-        // createTaskContainer.style.display = 'none'; // We may need a 'toggle dialog' function
+        toggleVisibility(createTaskDialog);
     });
 
     // Logic for creating new tasks from form data
@@ -306,24 +306,23 @@ export default function homePage() {
         appendTask();
 
         // Hide the dialog
-        createTaskDialog.style.display = 'none';
-        createTaskContainer.style.display = 'block';
+        toggleVisibility(createTaskDialog);
+        toggleVisibility(createTaskContainer);
     });
 
     // Fix this logic to ensure we're not hiding all dialogs
-    function hideDialog() {
-        const dialogs = document.querySelectorAll('dialog');
-        dialogs.forEach((dialog) => {
-            dialog.style.display = 'none';
-        });
+    // toggle visibility using ternary operator?
+    function toggleVisibility(element) {
+        element.style.display = element.style.display === 'none' ? 'block' : 'none';
     }
 
     const cancelButtons = document.querySelectorAll('.reset');
     cancelButtons.forEach((button) => {
         button.addEventListener('click', () => {
-            hideDialog();
-            console.log('dialog should now be hidden');
+            const modalOrDialog = button.closest('.modal') || button.closest('dialog');
+            if (modalOrDialog) {
+                toggleVisibility(modalOrDialog);
+            }
         });
     });
-
 }
