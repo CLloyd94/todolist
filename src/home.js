@@ -4,6 +4,35 @@ import { createTask, updateTask, deleteTask, toggleTaskCompletion } from './task
 // Import the library
 
 export default function homePage() {
+
+    function initialRender() {
+        const initialList = lists.find(list => list.id === 1);
+        currentListId = initialList.id;
+        return initialList.name;
+    }  
+
+    function addListToDialog() {
+        // List dropdown for create task dialog
+        const dialogListSelect = document.getElementById('list-select');
+        const defaultLists = lists.find(list => list.id === 1 || list.id === 2 || list.id === 3);
+        lists.forEach(list => {
+            // If the default lists are already in the dropdown, do nothing, otherwise continue
+            const dialogListOption = document.createElement('option');
+            // defaultLists.forEach(list => {
+            //     if (dialogListOption.value !== list.name)
+
+            // });
+            dialogListOption.text = list.name;
+            dialogListOption.value = list.name;
+            dialogListOption.id = list.name;
+            if (dialogListOption.id === 'Inbox') {
+                dialogListOption.selected = true;
+            }
+            dialogListSelect.appendChild(dialogListOption);
+            console.log(dialogListOption);
+        });
+    }
+
     const content = document.getElementById('content');
     const listNameHeading = document.createElement('h1');
     
@@ -20,11 +49,7 @@ export default function homePage() {
     let currentListId = null; // In developer tools, it will always show this due to scope.
     globalThis.currentListId = currentListId;
 
-    function initialRender() {
-        const initialList = lists.find(list => list.id === 1);
-        currentListId = initialList.id;
-        return initialList.name;
-    }  
+    addListToDialog();
 
     listNameHeading.textContent = initialRender();
 
@@ -123,6 +148,7 @@ export default function homePage() {
         console.log(newList);
         userListsArray.push(newList);
         appendList(newList);
+        addListToDialog();
         // Hide the dialog
         createListDialog.style.display = 'none'      
         createTaskContainer.style.display = 'block';
@@ -220,19 +246,11 @@ export default function homePage() {
         // createTaskContainer.style.display = 'none'; // We may need a 'toggle dialog' function
     });
 
-    // List dropdown for create task dialog
-    const dialogListSelect = document.getElementById('list-select');
+    
 
-    lists.forEach(list => {
-        const dialogListOption = document.createElement('option');
-        dialogListOption.text = `${list.name}`;
-        dialogListOption.value = list.name;
-        dialogListOption.id = list.name;
-        if (dialogListOption.id === 'Inbox') {
-            dialogListOption.selected = true;
-        }
-        dialogListSelect.appendChild(dialogListOption);
-    });
+    
+
+    
 
     // Logic for creating new tasks from form data
     document.getElementById('create-task-form').addEventListener('submit', (event) => {
