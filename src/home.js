@@ -29,15 +29,15 @@ export default function homePage() {
 
     function addListToDialog() {
         // List dropdown for create task dialog
-        const dialogListSelect = document.getElementById('list-select');
+        const modalListSelect = document.getElementById('list-select');
 
         // Get our three default lists with their IDs 1, 2, 3
         const defaultLists = lists.filter(list => list.id === 1 || list.id === 2 || list.id === 3);
 
         // Create an array to store the names of existing options in the dropdown
         const existingOptions = [];
-        for (let i = 0; i < dialogListSelect.options.length; i++) {
-            existingOptions.push(dialogListSelect.options[i].value);
+        for (let i = 0; i < modalListSelect.options.length; i++) {
+            existingOptions.push(modalListSelect.options[i].value);
         }
 
         // Add the default lists to the dropdown if they are not already present
@@ -50,7 +50,7 @@ export default function homePage() {
                 if (option.id === 'Inbox') {
                     option.selected = true;
                 }
-                dialogListSelect.appendChild(option);
+                modalListSelect.appendChild(option);
             }
         });
 
@@ -61,16 +61,16 @@ export default function homePage() {
 
         // Add the new lists to the dropdown
         newLists.forEach(list => {
-            const dialogListOption = document.createElement('option');
-            dialogListOption.text = list.name;
-            dialogListOption.value = list.name;
-            dialogListOption.id = list.name;
+            const modalListOption = document.createElement('option');
+            modalListOption.text = list.name;
+            modalListOption.value = list.name;
+            modalListOption.id = list.name;
 
-            if (dialogListOption.id === 'Inbox') {
-                dialogListOption.selected = true;
+            if (modalListOption.id === 'Inbox') {
+                modalListOption.selected = true;
             }
 
-            dialogListSelect.appendChild(dialogListOption);
+            modalListSelect.appendChild(modalListOption);
         });
     }
 
@@ -143,10 +143,11 @@ export default function homePage() {
         }
 
         // 'Create list' dialog
-        const createListDialog = document.getElementById('create-list-dialog');
+        // This should instead be converted to a modal?
+        const createListModal = document.getElementById('create-list-modal');
         // When the create list button is clicked, add the inputted name to the projects array
         createListButton.addEventListener('click', () => {
-            createListDialog.style.display = 'block';
+            createListModal.style.display = 'block';
             createTaskContainer.style.display = 'none';
         });
 
@@ -176,7 +177,7 @@ export default function homePage() {
             appendList(newList);
             addListToDialog();
             // Hide the dialog
-            createListDialog.style.display = 'none'
+            createListModal.style.display = 'none'
             createTaskContainer.style.display = 'block';
         });
 
@@ -272,12 +273,6 @@ export default function homePage() {
             // createTaskContainer.style.display = 'none'; // We may need a 'toggle dialog' function
         });
 
-    
-
-    
-
-    
-
         // Logic for creating new tasks from form data
         document.getElementById('create-task-form').addEventListener('submit', (event) => {
             event.preventDefault();
@@ -316,6 +311,7 @@ export default function homePage() {
             createTaskContainer.style.display = 'block';
         });
 
+        // Fix this logic to ensure we're not hiding all dialogs
         function hideDialog() {
             const dialogs = document.querySelectorAll('dialog');
             dialogs.forEach((dialog) => {

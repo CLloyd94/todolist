@@ -154,12 +154,27 @@ input:focus, textarea:focus {
     /* Adjust font size to match the icon */
 }
 
-#create-task-dialog {
+#create-task-dialog, #create-list-modal {
     border: var(--grey) 2px solid;
     border-radius: 8px;
     padding: 20px;
     width: 50%;
+    font-size: 14px;
     /* display: flex; */
+}
+
+#create-list-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+#create-list-form-group input, label {
+    margin-bottom: 10px;
+}
+
+#list-name {
+    border: solid var(--grey) 2px;
+    border-radius: 5px;
 }
 
 #create-task-form {

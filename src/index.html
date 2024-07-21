@@ -33,18 +33,22 @@
                     </menu>
                 </form>
             </dialog>
-            <dialog id="create-list-dialog">
-                <form id="create-list-form" method="dialog">
-                    <div class="form-group">
-                        <input type="text" id="list-name" name="list-name" placeholder="List name">
-                        <input type="color" id="list-color" name="list-color">
-                    </div>
-                    <menu>
-                        <button type="submit">Create list</button>
-                        <button type="reset" class="reset">Cancel</button>
-                    </menu>
-                </form>
-            </dialog>
+            <!-- The Modal -->
+            <div id="create-list-modal" class="modal">
+                <div class="modal-content">
+                    <form id="create-list-form">
+                        <div class="form-group" id="create-list-form-group">
+                            <label for="list-name">List name</label>
+                            <input type="text" id="list-name" name="list-name">
+                            <label for="list-color">Colour</label>
+                            <input type="color" id="list-color" name="list-color">
+                        </div>
+                        <menu>
+                            <button type="submit">Create list</button>
+                            <button type="reset" class="reset">Cancel</button>
+                        </menu>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
