@@ -270,6 +270,7 @@ export default function homePage() {
     createTaskContainer.addEventListener('click', () => {
         // If the dialog isn't displayed, display it and hide the create task button
         toggleVisibility(createTaskDialog);
+        content.appendChild(createTaskDialog);
     });
 
     // Logic for creating new tasks from form data
@@ -307,7 +308,7 @@ export default function homePage() {
 
         // Hide the dialog
         toggleVisibility(createTaskDialog);
-        toggleVisibility(createTaskContainer);
+        // toggleVisibility(createTaskContainer);
     });
 
     // Fix this logic to ensure we're not hiding all dialogs

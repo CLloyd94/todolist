@@ -158,8 +158,9 @@ input:focus, textarea:focus {
     border: var(--grey) 2px solid;
     border-radius: 8px;
     padding: 20px;
-    width: 50%;
+    width: 100%;
     font-size: 14px;
+    position: static;
     /* display: flex; */
 }
 
