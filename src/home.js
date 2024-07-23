@@ -301,10 +301,11 @@ export default function homePage() {
         const listId = selectedList.id;
     
         const newTask = createTask(listId, taskName, description, dueDate, priority);
-        selectedList.addTask(newTask);
         console.log(newTask);
         // Something fishy here; appendTask appends all tasks, while not retaining a task's completion status
         appendTask();
+        // appendTask(newTask);
+        console.log(`selected list's properties: ${selectedList.listInfo}`);
 
         // Hide the dialog
         toggleVisibility(createTaskDialog);

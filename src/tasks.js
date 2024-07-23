@@ -1,5 +1,5 @@
 export default class Task {
-    constructor(id, name, description = '', dueDate = null, priority = 'medium', list = null, completed = false) {
+    constructor(id, name, description, dueDate, priority, list, completed = false) {
         this._id = id;
         this._name = name;
         this._description = description;
@@ -10,12 +10,23 @@ export default class Task {
     }
 
     get taskInfo() {
-        return `Task name: ${this._name}, 
+        return `Task ID: ${this._id}, 
+        Task name: ${this._name}, 
         Task description: ${this._description}, 
         Task due date: ${this._dueDate}, 
         Task priority: ${this._priority}, 
         Task list: ${this._list},
         Task completion status: ${this.completed}`;
+    }
+
+    // Getter and setter for task ID
+    get id() {
+        return this._id;
+    }
+
+    set id(id) {
+        this._id = id;
+        console.log(`Task ID is ${this._id}`);
     }
 
     // Getter and setter for task name
