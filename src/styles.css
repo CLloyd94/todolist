@@ -211,8 +211,9 @@ input:focus, textarea:focus {
     align-items: center;
     flex: 1;
     padding: 2px;
-    height: 25px;
+    height: 30px;
     /* border: red 2px solid; */
+    justify-content: space-between;
 }
 
 .task-priority-color {
@@ -228,6 +229,14 @@ input:focus, textarea:focus {
 .task-priority-color:hover {
     background-color: var(--grey);
     cursor: pointer;
+}
+
+.task-name {
+    flex: 1;
+}
+
+.task-due-date {
+    flex-shrink: 0;
 }
 
 #task-list {

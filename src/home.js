@@ -228,25 +228,21 @@ export default function homePage() {
             }
 
             // Display key details for each task
-            const taskName = document.createElement('p');
+            const taskName = document.createElement('div');
             taskName.textContent = task.name;
-            const dueDate = document.createElement('p');
-            let formattedDate;
-            if (!task.dueDate) {
-                alert('Please insert a due date for your task.');
-                return;
-            } else {
-                formattedDate = formatDate(task.dueDate);
-                console.log(`formattedDate: ${formattedDate}`);
-                dueDate.textContent = formattedDate;
-            }
+            taskName.className = 'task-name';
+            const dueDate = document.createElement('div');
+            dueDate.className = 'task-due-date';
+            let formattedDate = formatDate(task.dueDate);
+            console.log(`formattedDate: ${formattedDate}`);
+            dueDate.textContent = formattedDate;
             
             const dividingLine = document.createElement('hr');
             dividingLine.className = 'task-dividing-line';
 
             // ERROR: After a task is marked as complete, any new tasks reset any completed tasks' colours, but remain complete
             taskPriorityButton.style.borderColor = task._completed ? '#c8c9cc' : priorityColor;
-            taskName.style.textDecoration = task._completed ? 'line-through' : 'none';          
+            taskItem.style.textDecoration = task._completed ? 'line-through' : 'none';          
 
             // Create task item
             taskItem.appendChild(taskPriorityButton);
@@ -278,7 +274,7 @@ export default function homePage() {
 
     function formatDate(date) {
         const dateSplit = date.split("-").join(', ');
-        const formattedDate = format(new Date(dateSplit), 'dd/MM/yy');
+        const formattedDate = format(new Date(dateSplit), 'd MMM');
         return formattedDate;
     } 
 
@@ -291,6 +287,11 @@ export default function homePage() {
         const dueDate = document.getElementById('due-date').value;
         const priority = document.getElementById('priority-select').value;
         const listName = document.getElementById('list-select').value;
+
+        if (!dueDate) {
+            alert('Please insert a due date for your task.');
+            return;
+        }
 
         // Use the find function to find a list that matches the list name, then retrieve its ID
         let selectedList;
