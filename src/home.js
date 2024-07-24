@@ -206,8 +206,6 @@ export default function homePage() {
     // Function for adding tasks to the content container
     function appendTask() {
         taskList.innerHTML = '';
-        // Instead of tasks array, retrieve tasks for the current/selected list?
-        // Using the currentListId, look up the list with that ID
         // Retrieve all tasks from that list
         // Display those tasks in the DOM
         const selectedList = lists.find(list => list.id === currentListId);
@@ -219,20 +217,23 @@ export default function homePage() {
             // Task priority style colour switch logic
             taskPriorityButton.className = 'task-priority-color';
             taskPriorityButton.id = `${task.priority}`;
+            let priorityColor;
         
             switch (task.priority) {
                 case 'high':
-                    taskPriorityButton.style.borderColor = '#CE2B37';
+                    priorityColor = '#CE2B37';
                     break;
                 case 'medium':
-                    taskPriorityButton.style.borderColor = '#FFA630';
+                    priorityColor = '#FFA630';
                     break;
                 case 'low':
-                    taskPriorityButton.style.borderColor = '#3777FF';
+                    priorityColor = '#3777FF';
                     break;
                 default:
-                    taskPriorityButton.style.borderColor = '#FFA630';
+                    priorityColor = '#FFA630';
             }
+
+            taskPriorityButton.style.borderColor = priorityColor;
             // Display key details for each task
             const taskName = document.createElement('p');
             taskName.textContent = task.name;
@@ -246,19 +247,15 @@ export default function homePage() {
             taskItem.appendChild(taskName);
             taskItem.appendChild(dueDate);
             // Add task item to list and add dividing line
-            // With task list, we need to get the ID/name of the current list,
-            // and only add it to the list if it matches the list the user specified
-            // Using the list ID, use the addtasks function from lists.js
-            // taskList.appendChild(list.tasks);
             taskList.appendChild(taskItem);
             taskList.appendChild(dividingLine);
 
             // Also when clicked, toggle its done status
             taskPriorityButton.addEventListener('click', () => {
                 task.toggleComplete();
-                // If it's done, apply strikethrough text and make text & button grey
-                taskName.style.textDecoration = task.completed ? 'line-through' : 'none';
-                taskPriorityButton.style.borderColor = task.completed ? '#c8c9cc' : taskPriorityButton.style.borderColor; // still needs fixing
+                // If the task is complete, apply strikethrough text and make text & button grey
+                taskName.style.textDecoration = task._completed ? 'line-through' : 'none';
+                taskPriorityButton.style.borderColor = task._completed ? '#c8c9cc' : priorityColor;
             });
         });
     }
@@ -312,7 +309,6 @@ export default function homePage() {
         // toggleVisibility(createTaskContainer);
     });
 
-    // Fix this logic to ensure we're not hiding all dialogs
     // toggle visibility using ternary operator?
     function toggleVisibility(element) {
         element.style.display = element.style.display === 'none' ? 'block' : 'none';

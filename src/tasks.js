@@ -81,6 +81,8 @@ export default class Task {
     
     // Toggle task complete
     toggleComplete() {
-        this.completed = !this.completed;
+        console.log('toggleComplete function called');
+        this._completed = !this._completed;
+        console.log('toggleComplete function successfully called');
     }
 } 
