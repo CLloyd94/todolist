@@ -81,7 +81,6 @@ export default function homePage() {
     // Add lists to sidebar
     lists.forEach(list => {
         globalThis[`list${list.id}Info`] = () => list.listInfo;
-        // console.log(list.listInfo);
         const listItem = document.createElement('li');
         const button = document.createElement('button');
         const listParagraph = document.createElement('p');
@@ -92,7 +91,6 @@ export default function homePage() {
         listItem.appendChild(listParagraph);
         const smartListsContainer = document.getElementById('smart-lists-container');
         smartListsContainer.appendChild(listItem);
-        // console.log(`All list tasks: ${list.tasks}`);
 
         listItem.addEventListener('click', () => {
             listNameHeading.textContent = (`${list.name}`);
@@ -136,12 +134,11 @@ export default function homePage() {
                 listNameHeading.textContent = (`${list.name}`);
                 currentListId = list.id;
                 appendTask();
-                console.log(`current list ID: ${currentListId}`); // This doesn't appear to include the user's lists; not in lists array?
+                console.log(`current list ID: ${currentListId}`); 
             });
         });
     }
-    // 'Create list' dialog
-    // This should instead be converted to a modal?
+    // 'Create list' modal
     const createListModal = document.getElementById('create-list-modal');
     // Default invisible
     createListModal.style.display = 'none';
@@ -149,7 +146,6 @@ export default function homePage() {
     // When the create list button is clicked, add the inputted name to the projects array
     createListButton.addEventListener('click', () => {
         toggleVisibility(createListModal);
-        // toggleVisibility(createTaskContainer);
     });
 
     // Logic for handling user input from create task form
@@ -158,8 +154,6 @@ export default function homePage() {
 
         const listName = document.getElementById('list-name').value;
         const listColor = document.getElementById('list-color').value;
-        // Push the new list to the lists array
-        // lists.push(new List(1, 'Inbox', '📥'));
     
         // Use the find function to find a list that matches the list name, then retrieve its ID
         if (!listName) {
@@ -178,7 +172,6 @@ export default function homePage() {
         addListToDialog();
         // Hide the dialog
         toggleVisibility(createListModal);
-        // toggleVisibility(createTaskContainer);
     });
 
     // Add the user's custom lists to the sidebar
@@ -233,7 +226,6 @@ export default function homePage() {
                     priorityColor = '#FFA630';
             }
 
-            taskPriorityButton.style.borderColor = priorityColor;
             // Display key details for each task
             const taskName = document.createElement('p');
             taskName.textContent = task.name;
@@ -241,6 +233,10 @@ export default function homePage() {
             dueDate.textContent = task.dueDate;
             const dividingLine = document.createElement('hr');
             dividingLine.className = 'task-dividing-line';
+
+            // ERROR: After a task is marked as complete, any new tasks reset any completed tasks' colours, but remain complete
+            taskPriorityButton.style.borderColor = task._completed ? '#c8c9cc' : priorityColor;
+            taskName.style.textDecoration = task._completed ? 'line-through' : 'none';          
 
             // Create task item
             taskItem.appendChild(taskPriorityButton);
@@ -301,12 +297,10 @@ export default function homePage() {
         console.log(newTask);
         // Something fishy here; appendTask appends all tasks, while not retaining a task's completion status
         appendTask();
-        // appendTask(newTask);
         console.log(`selected list's properties: ${selectedList.listInfo}`);
 
         // Hide the dialog
         toggleVisibility(createTaskDialog);
-        // toggleVisibility(createTaskContainer);
     });
 
     // toggle visibility using ternary operator?
