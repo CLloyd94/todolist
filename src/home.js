@@ -1,6 +1,7 @@
 import List from './lists.js';
 import { createList, updateList, deleteList, lists } from './listController.js';
 import { createTask, updateTask, deleteTask, toggleTaskCompletion } from './taskController.js';
+import { format } from "date-fns";
 // Import the library
 
 export default function homePage() {
@@ -230,7 +231,16 @@ export default function homePage() {
             const taskName = document.createElement('p');
             taskName.textContent = task.name;
             const dueDate = document.createElement('p');
-            dueDate.textContent = task.dueDate;
+            let formattedDate;
+            if (!task.dueDate) {
+                alert('Please insert a due date for your task.');
+                return;
+            } else {
+                formattedDate = formatDate(task.dueDate);
+                console.log(`formattedDate: ${formattedDate}`);
+                dueDate.textContent = formattedDate;
+            }
+            
             const dividingLine = document.createElement('hr');
             dividingLine.className = 'task-dividing-line';
 
@@ -266,6 +276,12 @@ export default function homePage() {
         content.appendChild(createTaskDialog);
     });
 
+    function formatDate(date) {
+        const dateSplit = date.split("-").join(', ');
+        const formattedDate = format(new Date(dateSplit), 'dd/MM/yy');
+        return formattedDate;
+    } 
+
     // Logic for creating new tasks from form data
     document.getElementById('create-task-form').addEventListener('submit', (event) => {
         event.preventDefault();
@@ -277,7 +293,6 @@ export default function homePage() {
         const listName = document.getElementById('list-select').value;
 
         // Use the find function to find a list that matches the list name, then retrieve its ID
-
         let selectedList;
 
         if (!listName) {
