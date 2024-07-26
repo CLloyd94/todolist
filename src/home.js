@@ -267,7 +267,20 @@ export default function homePage() {
                 content.appendChild(editTaskModal);
                 toggleVisibility(editTaskModal);
                 
-                
+                const editTaskName = document.getElementById('edit-task-name');
+                editTaskName.value = task.name;
+                const editTaskDescription = document.getElementById('edit-task-description');
+                editTaskDescription.value = task.description;
+                const editDueDate = document.getElementById('edit-task-due-date');
+                editDueDate.value = task.dueDate;
+                const editPriority = document.getElementById('edit-task-priority');
+                editPriority.value = task.priority;
+                // Ensure the task's list is correctly displayed; add all other lists as options
+                const editList = document.getElementById('edit-task-list')
+                editList.value = task.list;
+                editList.text = task.list;
+                editList.id = task.list;
+                // editList.addListToDialog();
 
             });
         });

@@ -183,7 +183,7 @@ dialog, .modal {
     flex-direction: column;
 }
 
-#form-group-1 {
+.form-group {
     display: flex;
     flex-direction: column;
 }
