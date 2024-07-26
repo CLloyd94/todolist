@@ -197,6 +197,9 @@ export default function homePage() {
     content.appendChild(taskList);
     content.appendChild(createTaskContainer);
 
+    const editTaskModal = document.getElementById('edit-task-modal');
+    editTaskModal.style.display = 'none';
+
     // Function for adding tasks to the content container
     function appendTask() {
         taskList.innerHTML = '';
@@ -242,7 +245,7 @@ export default function homePage() {
 
             // ERROR: After a task is marked as complete, any new tasks reset any completed tasks' colours, but remain complete
             taskPriorityButton.style.borderColor = task._completed ? '#c8c9cc' : priorityColor;
-            taskItem.style.textDecoration = task._completed ? 'line-through' : 'none';          
+            taskItem.style.textDecoration = task._completed ? 'line-through' : 'none';
 
             // Create task item
             taskItem.appendChild(taskPriorityButton);
@@ -260,8 +263,7 @@ export default function homePage() {
                 taskPriorityButton.style.borderColor = task._completed ? '#c8c9cc' : priorityColor;
             });
 
-            const editTaskModal = document.getElementById('edit-task-modal');
-            editTaskModal.style.display = 'none';
+            
 
             taskItem.addEventListener('click', () => {
                 content.appendChild(editTaskModal);
@@ -271,17 +273,27 @@ export default function homePage() {
                 editTaskName.value = task.name;
                 const editTaskDescription = document.getElementById('edit-task-description');
                 editTaskDescription.value = task.description;
-                const editDueDate = document.getElementById('edit-task-due-date');
-                editDueDate.value = task.dueDate;
-                const editPriority = document.getElementById('edit-task-priority');
-                editPriority.value = task.priority;
+                const editTaskDueDate = document.getElementById('edit-task-due-date');
+                editTaskDueDate.value = task.dueDate;
+                const editTaskPriority = document.getElementById('edit-task-priority');
+                editTaskPriority.value = task.priority;
                 // Ensure the task's list is correctly displayed; add all other lists as options
-                const editList = document.getElementById('edit-task-list')
+                const editList = document.getElementById('edit-task-list');
                 editList.value = task.list;
                 editList.text = task.list;
                 editList.id = task.list;
                 // editList.addListToDialog();
 
+                // Needs fixing but kinda close
+
+                document.getElementById('edit-task-form').addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    console.log('button clicked');
+                    updateTask(task, editTaskName, editTaskDescription, editTaskDueDate, editTaskPriority, editList);
+                    console.log(
+                        `task, ${editTaskName}, ${editTaskDescription}, ${editTaskDueDate}, ${editTaskPriority}, ${editList}`
+                    );
+                });
             });
         });
     }

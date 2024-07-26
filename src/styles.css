@@ -188,7 +188,7 @@ dialog, .modal {
     flex-direction: column;
 }
 
-#task-name {
+#task-name, #edit-task-name {
     font-weight: bold;
     font-size: 14px;
 }
