@@ -259,6 +259,17 @@ export default function homePage() {
                 taskName.style.textDecoration = task._completed ? 'line-through' : 'none';
                 taskPriorityButton.style.borderColor = task._completed ? '#c8c9cc' : priorityColor;
             });
+
+            const editTaskModal = document.getElementById('edit-task-modal');
+            editTaskModal.style.display = 'none';
+
+            taskItem.addEventListener('click', () => {
+                content.appendChild(editTaskModal);
+                toggleVisibility(editTaskModal);
+                
+                
+
+            });
         });
     }
 

@@ -33,7 +33,29 @@
                     </menu>
                 </form>
             </dialog>
-            <!-- The Modal -->
+            <div id="edit-task-modal" class="modal">
+                <div class="modal-content">
+                    <form id="edit-task-form" method="dialog">
+                        <div class="form-group" id="form-group-2">
+                            <input type="text" id="edit-task-name" name="task-name" placeholder="Task name">
+                            <textarea id="edit-task-description" name="description" placeholder="Description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="date" id="edit-task-due-date" name="due-date" />
+                            <select id="edit-priority-select" name="priority-select" class="button">
+                                <option value="high" id="high-priority">🔴 High priority</option>
+                                <option value="medium" id="medium-priority">🟡 Medium priority</option>
+                                <option value="low" id="low-priority">🔵 Low priority</option>
+                            </select>
+                            <select id="edit-list-select" name="list-name" class="button"></select>
+                        </div>
+                        <menu>
+                            <button type="submit">Save</button>
+                            <button type="reset" class="reset">Cancel</button>
+                        </menu>
+                    </form>
+                </div>
+            </div>
             <div id="create-list-modal" class="modal">
                 <div class="modal-content">
                     <form id="create-list-form">

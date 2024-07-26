@@ -154,7 +154,7 @@ input:focus, textarea:focus {
     /* Adjust font size to match the icon */
 }
 
-#create-task-dialog, #create-list-modal {
+dialog, .modal {
     border: var(--grey) 2px solid;
     border-radius: 8px;
     padding: 20px;
