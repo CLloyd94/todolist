@@ -5,17 +5,27 @@ import { format } from "date-fns";
 // Import the library
 
 export default function homePage() {
-
     const content = document.getElementById('content');
     const listNameHeading = document.createElement('h1');
-
     content.appendChild(listNameHeading);
 
-    globalThis.lists = lists;
+    globalThis.lists = initialiseLists;
 
-    lists.push(new List(1, '📥 Inbox', 'blue'));
-    lists.push(new List(2, '🌅 Today', 'red'));
-    lists.push(new List(3, '🗓️ This week', 'orange'));
+    function initialiseLists() {
+        const defaultLists = [
+            (new List(1, '📥 Inbox', 'blue')),
+            (new List(2, '🌅 Today', 'red')),
+            (new List(3, '🗓️ This week', 'orange')),
+        ];
+        lists.push(...defaultLists);
+        return lists;
+    }
+
+    // function initialisePage(listNameHeading) {
+    //     listNameHeading.textContent = 
+    // }
+
+
 
     // How do we set the currentlistId 
     // What's the initially rendered list? Setting this to a number doesn't work.
