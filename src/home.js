@@ -9,23 +9,11 @@ export default function homePage() {
     const listNameHeading = document.createElement('h1');
     content.appendChild(listNameHeading);
 
-    globalThis.lists = initialiseLists;
+    globalThis.lists = lists;
 
-    function initialiseLists() {
-        const defaultLists = [
-            (new List(1, '📥 Inbox', 'blue')),
-            (new List(2, '🌅 Today', 'red')),
-            (new List(3, '🗓️ This week', 'orange')),
-        ];
-        lists.push(...defaultLists);
-        return lists;
-    }
-
-    // function initialisePage(listNameHeading) {
-    //     listNameHeading.textContent = 
-    // }
-
-
+    lists.push(new List(1, '📥 Inbox', 'blue'));
+    lists.push(new List(2, '🌅 Today', 'red'));
+    lists.push(new List(3, '🗓️ This week', 'orange'));
 
     // How do we set the currentlistId 
     // What's the initially rendered list? Setting this to a number doesn't work.
@@ -177,6 +165,7 @@ export default function homePage() {
         }
 
         const newList = createList(listName, listColor);
+        populateStorage("list", newList);
         console.log(newList);
         userListsArray.push(newList);
         appendList(newList);
@@ -299,7 +288,7 @@ export default function homePage() {
                 document.getElementById('edit-task-form').addEventListener('submit', (event) => {
                     event.preventDefault();
                     console.log('button clicked');
-                    updateTask(task, editTaskName, editTaskDescription, editTaskDueDate, editTaskPriority, editList);
+                    updateTask(task, editTaskName, editTaskDescription, editTaskDueDate, editTaskPriority);
                     console.log(
                         `task, ${editTaskName}, ${editTaskDescription}, ${editTaskDueDate}, ${editTaskPriority}, ${editList}`
                     );
@@ -356,6 +345,8 @@ export default function homePage() {
         const listId = selectedList.id;
     
         const newTask = createTask(listId, taskName, description, dueDate, priority);
+        console.log(`newTask is data type: ${typeof (newTask)}`);
+        populateStorage("task", newTask);
         console.log(newTask);
         // Something fishy here; appendTask appends all tasks, while not retaining a task's completion status
         appendTask();
@@ -379,4 +370,15 @@ export default function homePage() {
             }
         });
     });
+    // Set up a function that saves the projects (and todos) to localStorage every time a new project (or todo) is created
+    function populateStorage(name, object) {
+        localStorage.setItem(name, JSON.stringify(object));
+    }
+
+    // Set up another function that looks for that data in localStorage when your app is first loaded.
+    function getStorageItem(item) {
+        JSON.parse(localStorage.getItem(item));
+    }
+
+
 }

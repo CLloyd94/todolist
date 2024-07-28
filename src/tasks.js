@@ -1,11 +1,11 @@
 export default class Task {
-    constructor(id, name, description, dueDate, priority, list, completed = false) {
+    constructor(id, name, description, dueDate, priority, completed = false) {
         this._id = id;
         this._name = name;
         this._description = description;
         this._dueDate = dueDate;
         this._priority = priority;
-        this._list = list;
+        // this._list = list;
         this._completed = completed;
     }
 
@@ -15,9 +15,9 @@ export default class Task {
         Task description: ${this._description}, 
         Task due date: ${this._dueDate}, 
         Task priority: ${this._priority}, 
-        Task list: ${this._list},
         Task completion status: ${this.completed}`;
     }
+    // Task list: ${this._list},
 
     // Getter and setter for task ID
     get id() {
@@ -70,14 +70,14 @@ export default class Task {
     }
 
     // Getter and setter for associated list
-    get list() {
-        return this._list;
-    }
+    // get list() {
+    //     return this._list;
+    // }
 
-    set list(list) {
-        this._list = list;
-        console.log(`Task moved to list ${this._list}`);
-    }
+    // set list(list) {
+    //     this._list = list;
+    //     console.log(`Task moved to list ${this._list}`);
+    // }
     
     // Toggle task complete
     toggleComplete() {

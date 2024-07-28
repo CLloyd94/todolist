@@ -18,19 +18,19 @@ export function createTask(listId, taskName, description, dueDate, priority) {
         taskId = Math.floor(Math.random() * 100);
     } while (tasks.some(task => task.id === taskId));
 
-    const newTask = new Task(taskId, taskName, description, dueDate, priority, list);
+    const newTask = new Task(taskId, taskName, description, dueDate, priority);
     list.addTask(newTask);
     tasks.push(newTask);
     return newTask;
 }
 
 // UPDATE
-export function updateTask(task, { name, description, dueDate, priority, list, completed }) {
+export function updateTask(task, { name, description, dueDate, priority, completed }) {
     if (name !== undefined) task.name = name;
     if (description !== undefined) task.description = description;
     if (dueDate !== undefined) task.dueDate = dueDate;
     if (priority !== undefined) task.priority = priority;
-    if (list !== undefined) task.list = list;
+    // if (list !== undefined) task.list = list;
     if (completed !== undefined) task.completed = completed;
 }
 
