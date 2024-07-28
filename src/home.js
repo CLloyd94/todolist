@@ -1,7 +1,7 @@
 import List from './lists.js';
 import { createList, updateList, deleteList, lists } from './listController.js';
 import { createTask, updateTask, deleteTask, toggleTaskCompletion } from './taskController.js';
-import { format } from "date-fns";
+import { format, startOfSecond } from "date-fns";
 // Import the library
 
 export default function homePage() {
@@ -10,6 +10,11 @@ export default function homePage() {
     content.appendChild(listNameHeading);
 
     globalThis.lists = lists;
+
+    // Get a list of all values in localStorage that begin with 'list'
+
+    getStorageItem("list");
+    getStorageItem("task");
 
     lists.push(new List(1, '📥 Inbox', 'blue'));
     lists.push(new List(2, '🌅 Today', 'red'));
@@ -165,7 +170,7 @@ export default function homePage() {
         }
 
         const newList = createList(listName, listColor);
-        populateStorage("list", newList);
+        populateStorage(`list-${newList.id}`, newList);
         console.log(newList);
         userListsArray.push(newList);
         appendList(newList);
@@ -262,8 +267,6 @@ export default function homePage() {
                 taskPriorityButton.style.borderColor = task._completed ? '#c8c9cc' : priorityColor;
             });
 
-            
-
             taskItem.addEventListener('click', () => {
                 content.appendChild(editTaskModal);
                 toggleVisibility(editTaskModal);
@@ -346,7 +349,7 @@ export default function homePage() {
     
         const newTask = createTask(listId, taskName, description, dueDate, priority);
         console.log(`newTask is data type: ${typeof (newTask)}`);
-        populateStorage("task", newTask);
+        populateStorage(`task-${newTask.id}`, newTask);
         console.log(newTask);
         // Something fishy here; appendTask appends all tasks, while not retaining a task's completion status
         appendTask();
@@ -377,8 +380,18 @@ export default function homePage() {
 
     // Set up another function that looks for that data in localStorage when your app is first loaded.
     function getStorageItem(item) {
-        JSON.parse(localStorage.getItem(item));
+        // we need (item to look for e.g. list or task, maybe not even ID, but the taskId/listId is created before pushed to localStorage)
+
+
+        // Return all values from all keys in the array that begin with either 'list' or 'task'
+        // Depending on the array that is passed in.
+
+        // For each item in localStorage,
+        for (let i = 0; i < localStorage.length; i++) {
+            // Previously was not looing up correctly because we were looking up list-1, list-2, etc. 
+            // Return elements that begin with item name
+            console.log(typeof (item));
+            console.log(JSON.parse(localStorage.getItem(localStorage.key(startsWith(`${item}`)))));
+        }
     }
-
-
 }
