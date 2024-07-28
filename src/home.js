@@ -99,6 +99,24 @@ export default function homePage() {
         });
     });
 
+    // function createListItem() {
+    //     const listItem = document.createElement('li');
+    //     const button = document.createElement('button');
+    //     const listParagraph = document.createElement('p');
+
+    //     button.textContent = `${list.name}`;
+    //     button.id = list.name;
+    //     listItem.appendChild(button);
+    //     listItem.appendChild(listParagraph);
+
+    //     listItem.addEventListener('click', () => {
+    //         listNameHeading.textContent = (`${list.name}`);
+    //         currentListId = list.id;
+    //         appendTask();
+    //         console.log(`current list ID: ${currentListId}`);
+    //     });
+    // }
+
     // CREATE LISTS
     const userListsContainer = document.getElementById('user-lists-container');
     const userListsHeadingContainer = document.getElementById('user-lists-heading-container');
