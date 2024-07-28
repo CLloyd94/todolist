@@ -11,11 +11,6 @@ export default function homePage() {
 
     globalThis.lists = lists;
 
-    // Get a list of all values in localStorage that begin with 'list'
-
-    getStorageItem("list");
-    getStorageItem("task");
-
     lists.push(new List(1, '📥 Inbox', 'blue'));
     lists.push(new List(2, '🌅 Today', 'red'));
     lists.push(new List(3, '🗓️ This week', 'orange'));
@@ -131,7 +126,7 @@ export default function homePage() {
             button.id = list.name;
             listItem.appendChild(button);
             userListsContainer.appendChild(listItem);
-            console.log(`userListsArray length after button press: ${userListsArray.length}`);
+            // console.log(`userListsArray length after button press: ${userListsArray.length}`);
             console.log(`list info: ${list.getInfo}`);
 
             listItem.addEventListener('click', () => {
@@ -179,8 +174,13 @@ export default function homePage() {
         toggleVisibility(createListModal);
     });
 
-    // Add the user's custom lists to the sidebar
-    userListsArray.forEach(list => appendList(list));
+    // Get a list of all values in localStorage that begin with 'list'
+    const previousLists = getStorageItem("list");
+    previousLists.forEach(list => {
+        userListsArray.push(list);
+        appendList(list);
+    });
+    console.log(`previousLists is of type ${typeof (previousLists)}`);
 
     // Create a 'create task' button
     const createTaskContainer = document.createElement('div');
@@ -380,18 +380,26 @@ export default function homePage() {
 
     // Set up another function that looks for that data in localStorage when your app is first loaded.
     function getStorageItem(item) {
-        // we need (item to look for e.g. list or task, maybe not even ID, but the taskId/listId is created before pushed to localStorage)
-
-
-        // Return all values from all keys in the array that begin with either 'list' or 'task'
-        // Depending on the array that is passed in.
+        const values = [];
+        // Ensure item is a string
+        if (typeof item !== 'string') {
+            console.error('The item parameter should be a string');
+            return;
+        }
 
         // For each item in localStorage,
         for (let i = 0; i < localStorage.length; i++) {
-            // Previously was not looing up correctly because we were looking up list-1, list-2, etc. 
-            // Return elements that begin with item name
-            console.log(typeof (item));
-            console.log(JSON.parse(localStorage.getItem(localStorage.key(startsWith(`${item}`)))));
+            // Get the key at the current index
+            const key = localStorage.key(i);
+
+            // Check if the key starts with the item string
+            if (key.startsWith(item)) {
+                // Parse and log the corresponding value from localStorage
+                let value = JSON.parse(localStorage.getItem(key));
+                values.push(value);
+            }
         }
+        console.log(values);
+        return values;
     }
 }
