@@ -193,28 +193,17 @@ export default function homePage() {
     });
 
     // Get a list of all values in localStorage that begin with 'list'
-    // logLocalStorageContent();
+    logLocalStorageContent();
     const previousLists = getStorageItem("list");
-    console.log(`typeof previousLists is ${typeof (previousLists)}`);
-    console.log(previousLists);
-    // Returns true; it is an array
-    // let isArr = previousLists instanceof Array;
-    // let isArr = Object.prototype.toString.call(previousLists) == '[object Array]';
-    // console.log(isArr);
-    previousLists.forEach(list => {
-        console.log(`typeof each list in previousLists is ${typeof (list)}`);
-        // Each list is not an instance of the class List object!
-        console.log(`${list instanceof (List)}`);
-        console.log("Full list object:", list);
-        console.log("list.name:", list.name);
-        console.log("list._name:", list._name);
+    previousLists.forEach(listObject => {
+        // But each listObject still not an instance of List...
+        console.log(listObject instanceof(List));
+        const list = recreateList(listObject);
         if (!list.name) {
             console.error('list.name is undefined for object:', list);
             list.name = 'Unnamed list';
         }
         userListsArray.push(list);
-        console.log(userListsArray);
-        console.log(lists);
         appendList(list);
     });
     console.log(`previousLists is of type ${typeof (previousLists)}`);
@@ -419,7 +408,7 @@ export default function homePage() {
     // Set up another function that looks for that data in localStorage when your app is first loaded.
     function getStorageItem(item) {
         const values = [];
-        console.log(`Retrieving items starting with: ${item}`);
+        // console.log(`Retrieving items starting with: ${item}`);
         // Ensure item is a string
         if (typeof item !== 'string') {
             console.error('The item parameter should be a string');
@@ -430,23 +419,23 @@ export default function homePage() {
         for (let i = 0; i < localStorage.length; i++) {
             // Get the key at the current index
             const key = localStorage.key(i);
-            console.log(`Checking key: ${key}`);
+            // console.log(`Checking key: ${key}`);
 
             // Check if the key starts with the item string
             if (key.startsWith(item)) {
                 try {
                     // Parse and log the corresponding value from localStorage
                     let value = JSON.parse(localStorage.getItem(key));
-                    console.log(`Retrieved object for key ${key}:`, value);
+                    // console.log(`Retrieved object for key ${key}:`, value);
                     values.push(value);
 
                 } catch (error) {
-                    console.error(`Error parsing JSON for key ${key}:`, error);
+                    // console.error(`Error parsing JSON for key ${key}:`, error);
                 }
                 
             }
         }
-        console.log('Retrieved values:', values);
+        // console.log('Retrieved values:', values);
         return values;
     }
 
@@ -455,20 +444,12 @@ export default function homePage() {
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
             const value = localStorage.getItem(key);
-            // console.log(`Key: ${key}, Value: ${value}`);
+            console.log(`Key: ${key}, Value: ${value}`);
         }
     }
-
-    // Store an example object
-    const exampleList = { name: 'example', _name: '_example' };
-    populateStorage('list1', exampleList);
-
-    // Log localStorage content
-    logLocalStorageContent();
-
-    // Retrieve items starting with 'list'
-    const previousLists3 = getStorageItem('list');
-    console.log(`typeof previousLists is ${typeof previousLists3}`);
-    console.log(previousLists3);
-
+    function recreateList(listObject) {
+        const newList = new List(listObject._id, listObject._name, listObject._color);
+        newList._tasks = listObject._tasks || [];
+        return newList;
+    }
 }
